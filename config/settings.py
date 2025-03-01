@@ -25,6 +25,8 @@ SECRET_KEY = 'django-insecure-ub+w!ep=!t=9c=9_j(_k^g#4)7@oq&-8ow7hu4--+^ev751-5n
 DEBUG = True
 
 ALLOWED_HOSTS = [
+    'onlinelibrary-qe0u.onrender.com',
+    '0.0.0.0'
     # '192.168.0.101'
 ]
 
