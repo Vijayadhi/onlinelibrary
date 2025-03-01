@@ -157,3 +157,7 @@ REST_FRAMEWORK = {
     )
 }
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://onlinelibrary-qe0u.onrender.com/',
+    # 'https://socailandmusicalchamber.netlify.app'
+]
