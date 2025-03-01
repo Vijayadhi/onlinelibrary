@@ -1,0 +1,69 @@
+{% extends 'backend/base.html' %}
+{% load static %}
+{% block title %}
+Update Category
+{% endblock %}
+{% block content %}
+
+<div class="content-wrapper">
+    <div class="container">
+        <div class="row pad-botm">
+            <div class="col-md-12">
+                <h4 class="header-line">Update Category</h4>
+
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        Category Info
+                    </div>
+                    <div class="panel-body">
+                        <form action="" method="POST">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label>Category Name</label>
+                                <input class="form-control" id="category_name" type="text" name="category_name"
+                                       value="{{category.name}}" required/>
+                            </div>
+                            <div class="form-group">
+                                <label>Status</label>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="status" value="1" id="activeRadio">Active
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="status" value="0" id="inactiveRadio">Inactive
+                                    </label>
+                                </div>
+                            </div>
+                            <button type="submit" name="update" class="btn btn-info">Update</button>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<script>
+    const activeRadio = document.getElementById('activeRadio');
+    const inactiveRadio = document.getElementById('inactiveRadio');
+
+    if ({{ category.status|yesno:"true,false" }}) {
+        activeRadio.checked = true;
+    } else {
+        inactiveRadio.checked = true;
+    }
+
+</script>
+
+
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'user/base2.html' %}
+{% load static %}
+{% block title %}
+    Book List
+{% endblock %}
+{% block content %}
+    <div class="content-wrapper">
+        <div class="container">
+            <div class="row pad-botm">
+                <div class="col-md-12">
+                    <h4 class="header-line">Manage Issued Books</h4>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- Advanced Tables -->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Issued Books
+                        </div>
+                        <div class="panel-body">
+                            {% for element in books %}
+                            <div class="col-md-4" style="float:left; height:300px;">
+                                <img src="{{ element.image.url }}" width="100">
+                                <br/><b>{{element.name}}</b><br/>
+                                {{element.category}}<br/>
+                                {{element.author}}<br/>
+                                {{element.isbn_number}}<br/>
+                                {% if element.is_issued == 1 %}
+                                    <p style="color:red;">Book Already issued</p>
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <!--End Advanced Tables -->
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

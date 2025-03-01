@@ -1,0 +1,89 @@
+{% extends 'backend/base.html' %}
+{% load static %}
+{% block title %}
+Admin Dashboard
+{% endblock %}
+{% block content %}
+<!-- MENU SECTION END-->
+<div class="content-wrapper">
+    <div class="container">
+        <div class="row pad-botm">
+            <div class="col-md-12">
+                <h4 class="header-line">ADMIN DASHBOARD</h4>
+
+            </div>
+
+        </div>
+
+        <div class="row">
+            <a href="/manage_books">
+                <div class="col-md-3 col-sm-3 col-xs-6">
+                    <div class="alert alert-success back-widget-set text-center">
+                        <i class="fa fa-book fa-5x"></i>
+
+                        <h3>{{book_list}} </h3>
+                        Books Listed
+                    </div>
+                </div>
+            </a>
+
+
+            <a href="/manage_issued">
+                <div class="col-md-3 col-sm-3 col-xs-6">
+                    <div class="alert alert-warning back-widget-set text-center">
+                        <i class="fa fa-recycle fa-5x"></i>
+
+
+                        <h3>{{book_not_returned}}</h3>
+                        Books Not Returned Yet
+                    </div>
+                </div>
+            </a>
+
+            <a href="/student_reg">
+                <div class="col-md-3 col-sm-3 col-xs-6">
+                    <div class="alert alert-danger back-widget-set text-center">
+                        <i class="fa fa-users fa-5x"></i>
+
+                        <h3>{{students}}</h3>
+                        Registered Users
+                    </div>
+                </div>
+            </a>
+
+
+            <a href="/manage_author">
+                <div class="col-md-3 col-sm-3 col-xs-6">
+                    <div class="alert alert-success back-widget-set text-center">
+                        <i class="fa fa-user fa-5x"></i>
+
+                        <h3>{{authors}}</h3>
+                        Authors Listed
+                    </div>
+                </div>
+            </a>
+        </div>
+
+
+        <div class="row">
+
+
+            <a href="/manage_category">
+                <div class="col-md-3 col-sm-3 rscol-xs-6">
+                    <div class="alert alert-info back-widget-set text-center">
+                        <i class="fa fa-file-archive-o fa-5x"></i>
+
+
+                        <h3>{{categories}} </h3>
+                        Listed Categories
+                    </div>
+                </div>
+            </a>
+
+
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

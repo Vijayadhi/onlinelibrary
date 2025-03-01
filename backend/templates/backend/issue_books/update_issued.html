@@ -1,0 +1,126 @@
+{% extends 'backend/base.html' %}
+{% load static %}
+{% block title %}
+Update Issued Books
+{% endblock %}
+{% block content %}
+
+<div class="content-wrapper">
+    <div class="container">
+        <div class="row pad-botm">
+            <div class="col-md-12">
+                <h4 class="header-line">Update Issued</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        Issued Book Info
+                    </div>
+                    <div class="panel-body">
+                        <form role="form" method="POST" action="">
+                            {% csrf_token %}
+
+                            <input type="hidden" name="bookid" value="{{ issued_book.id }}">
+                            <h4>Student Details</h4>
+                            <hr/>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Student ID: {{ issued_book.student.student_id }}</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Student Name: {{ issued_book.student.username }}</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Student Email: {{ issued_book.student.email }}</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Student Contact No: {{ issued_book.student.mobile_no }}</label>
+                                </div>
+                            </div>
+
+                            <h4>Book Details</h4>
+                            <hr/>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Book Image:</label>
+                                    <img src="{{ issued_book.books.image.url }}" width="120">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Book Name: {{ issued_book.books.name }}</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>ISBN: {{ issued_book.books.isbn_number }}</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Book Issued Date: {{ issued_book.issue_date }}</label>
+                                </div>
+                            </div>
+                            {% if issued_book.is_returned == 0%}
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Book Returned Date: {{ issued_book.return_date }}</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Fine (in USD):</label>
+                                    <input class="form-control" type="number" name="fine" required>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <button type="submit" name="return" id="submit" class="btn btn-info">Return Book</button>
+                                </div>
+                            </div>
+                            {% else %}
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Book Returned Date: {{ issued_book.return_date }}</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Fine (in USD): {{ issued_book.fine }}</label>
+                                </div>
+                            </div>
+                            {% endif %}
+
+
+                            {% if messages %}
+                            <div class="col-md-12">
+                                <div class="alert alert-success" role="alert">
+                                    {% for message in messages %}
+                                    {{ message }}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            {% endif %}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--<input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">-->
+<!---->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.15.5/dist/sweetalert2.all.min.js"></script>
+
+
+{% endblock %}

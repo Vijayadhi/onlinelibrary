@@ -1,0 +1,74 @@
+{% extends 'backend/base.html' %}
+{% load static %}
+{% block title %}
+Issue New Book
+{% endblock %}
+{% block content %}
+
+<div class="content-wrapper">
+    <div class="container">
+        <div class="row pad-botm">
+            <div class="col-md-12">
+                <h4 class="header-line">Issue Book</h4>
+
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        Issue a new book
+                    </div>
+                    <div class="panel-body">
+                        <form role="form" method="POST" action="">
+                            {% csrf_token %}
+
+                            <div class="form-group">
+                                <label for="student_id">Student<span style="color:red;">*</span></label>
+                                <select class="form-control" name="student_id" id="student_id" required>
+                                    <option value="" selected disabled>Select Student</option>
+                                    {% for student in students %}
+                                    <option value="{{ student.id }}">{{ student.username }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="book_id">Book<span style="color:red;">*</span></label>
+                                <select class="form-control" name="book_id" id="book_id" required>
+                                    <option value="" selected disabled>Select Book</option>
+                                    {% for book in books %}
+                                    <option value="{{ book.id }}">{{ book.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <button type="submit" name="issue" id="submit" class="btn btn-info">Issue Book</button>
+                            </div>
+                        </form>
+
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<script>
+    // JavaScript function to validate numeric input
+    function validateNumericInput(inputField) {
+        const value = inputField.value;
+        if (isNaN(value)) {
+            // Display an error message and reset the input value
+            alert('Please enter a valid numeric value.');
+            inputField.value = '';
+            inputField.focus();
+        }
+    }
+</script>
+
+{% endblock %}

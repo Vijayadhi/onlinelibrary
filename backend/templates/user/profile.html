@@ -1,0 +1,89 @@
+{% extends 'user/base2.html' %}
+{% load static %}
+{% block title %}
+Profile
+{% endblock %}
+{% block content %}
+<div class="content-wrapper">
+    <div class="container">
+        <div class="row pad-botm">
+            <div class="col-md-12">
+                <h4 class="header-line">My Profile</h4>
+
+            </div>
+
+        </div>
+        <div class="row">
+
+            <div class="col-md-9 col-md-offset-1">
+                <div class="panel panel-danger">
+                    {% if messages %}
+                    <div class="messages">
+                        {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}">
+                            {{ message }}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    <div class="panel-heading">
+                        My Profile
+                    </div>
+                    <div class="panel-body">
+                        <form name="signup" method="POST">
+
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label>Student ID : {{user.student_id}}</label>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Reg Date : {{user.creation_date}}</label>
+                            </div>
+                            <div class="form-group">
+                                <label>Last Updation Date : {{user.updation_date}}</label>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label>Profile Status : </label>
+                                {% if user.status == 1 %}
+                                <span style="color: green">Active</span>
+                                {% else %}
+                                <span style="color: red">Blocked</span>
+                                {% endif %}
+                            </div>
+
+
+                            <div class="form-group">
+                                <label>Full Name</label>
+                                <input class="form-control" type="text" name="full_name"
+                                       value="{{user.full_name}}" autocomplete="off"
+                                       required/>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label>Mobile Number :</label>
+                                <input class="form-control" type="text" name="mobile_no" maxlength="10"
+                                       value="{{user.mobile_no}}" autocomplete="off"
+                                       required/>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Current Email</label>
+                                <input class="form-control" type="email" name="email" id="emailid"
+                                       value="{{user.email}}" autocomplete="off" required
+                                       readonly/>
+                            </div>
+
+                            <button type="submit" name="update" class="btn btn-primary" id="submit">Update Now</button>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

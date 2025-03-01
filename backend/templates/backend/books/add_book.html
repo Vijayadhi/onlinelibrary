@@ -1,0 +1,107 @@
+{% extends 'backend/base.html' %}
+{% load static %}
+{% block title %}
+Add Books
+{% endblock %}
+{% block content %}
+
+<div class="content-wrapper">
+    <div class="container">
+        <div class="row pad-botm">
+            <div class="col-md-12">
+                <h4 class="header-line">Add Book</h4>
+
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        Book Info
+                    </div>
+                    <div class="panel-body">
+                        <form role="form" method="POST" action="" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Book Name<span style="color:red;">*</span></label>
+                                    <input class="form-control" type="text" name="name" autocomplete="off"
+                                           required/>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label> Category<span style="color:red;">*</span></label>
+                                    <select class="form-control" name="category" required="required">
+                                        <option value="">Select Category</option>
+                                        <!-- Render the categories from the context here -->
+                                        {% for category in categories %}
+                                        <option value="{{ category.id }}">{{ category.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label> Author<span style="color:red;">*</span></label>
+                                    <select class="form-control" name="author" required="required">
+                                        <option value="">Select Author</option>
+                                        <!-- Render the authors from the context here -->
+                                        {% for author in authors %}
+                                        <option value="{{ author.id }}">{{ author.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+
+                             <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>ISBN Number<span style="color:red;">*</span></label>
+                                    <input class="form-control" type="text" name="isbn_number"/>
+                                    <p class="help-block">An ISBN is an International Standard Book Number. ISBN Must be
+                                        unique</p>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Price in USD<span style="color:red;">*</span></label>
+                                    <input class="form-control" type="text" name="price" required="required" onblur="validateNumericInput(this)"/>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Book Picture<span style="color:red;">*</span></label>
+                                    <input class="form-control" type="file" name="bookpic" autocomplete="off"
+                                           required="required"/>
+                                </div>
+                            </div>
+                            <button type="submit" name="add" id="add" class="btn btn-info">Submit</button>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<script>
+    // JavaScript function to validate numeric input
+    function validateNumericInput(inputField) {
+        const value = inputField.value;
+        if (isNaN(value)) {
+            // Display an error message and reset the input value
+            alert('Please enter a valid numeric value.');
+            inputField.value = '';
+            inputField.focus();
+        }
+    }
+</script>
+
+{% endblock %}

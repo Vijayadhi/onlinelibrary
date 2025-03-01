@@ -1,0 +1,56 @@
+{% extends 'backend/base.html' %}
+{% load static %}
+{% block title %}
+Add Authors
+{% endblock %}
+{% block content %}
+
+<div class="content-wrapper">
+    <div class="container">
+        <div class="row pad-botm">
+            <div class="col-md-12">
+                <h4 class="header-line">Add Author</h4>
+
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        Author Info
+                    </div>
+                    <div class="panel-body">
+                        <form method="POST" action="">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label>Author Name</label>
+                                <input class="form-control" type="text" name="author" autocomplete="off" required/>
+                            </div>
+
+                            <button type="submit" name="create" class="btn btn-info">Add</button>
+
+                        </form>
+                        {% if messages %}
+                        <br>
+                        <div class="alert-success" role="alert">
+                            {% for message in messages %}
+
+                            {{ message }}
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.15.5/dist/sweetalert2.all.min.js"></script>
+
+
+{% endblock %}

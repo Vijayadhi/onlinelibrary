@@ -1,0 +1,71 @@
+{% extends 'frontend/base.html' %}
+{% load static %}
+{% block content %}
+<script type="text/javascript">
+    function valid() {
+        if (document.signup.password.value != document.signup.confirm_password.value) {
+            alert("Password and Confirm Password Field do not match!");
+            document.signup.confirm_password.focus();
+            return false;
+        }
+        return true;
+    }
+</script>
+
+<!-- MENU SECTION END-->
+<div class="content-wrapper">
+    <div class="container">
+        <div class="row pad-botm">
+            <div class="col-md-12">
+                <h4 class="header-line">User Signup</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-9 col-md-offset-1">
+                <div class="panel panel-danger">
+                    <div class="panel-heading">
+                        SIGNUP FORM
+                    </div>
+                    <div class="panel-body">
+                        <form name="signup" method="post" onsubmit="return valid()">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label>Enter Full Name</label>
+                                <input class="form-control" id="full_name" type="text" name="full_name" autocomplete="off" required/>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Enter User Name</label>
+                                <input class="form-control" id="username" type="text" name="username" autocomplete="off" required/>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Mobile Number :</label>
+                                <input class="form-control" id="phone_no" type="number" name="phone_no" maxlength="10" autocomplete="off" required/>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Enter Email</label>
+                                <input class="form-control" type="email" name="email" id="email" autocomplete="off" required/>
+                                <span id="user-availability-status" style="font-size:12px;"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Enter Password</label>
+                                <input class="form-control" id="password" type="password" name="password" autocomplete="off" required/>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Confirm Password </label>
+                                <input class="form-control" id="confirm_password" type="password" name="confirm_password" autocomplete="off" required/>
+                            </div>
+
+                            <button type="submit" name="signup" class="btn btn-danger" id="submit">Register Now</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,119 @@
+{% extends 'backend/base.html' %}
+{% load static %}
+{% block title %}
+Registered Students
+{% endblock %}
+{% block content %}
+<!-- MENU SECTION END-->
+<div class="content-wrapper">
+    <div class="container">
+        <div class="row pad-botm">
+            <div class="col-md-12">
+                <h4 class="header-line">Manage Reg Students</h4>
+            </div>
+
+
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <!-- Advanced Tables -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Reg Students
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Student ID</th>
+                                    <th>Student Name</th>
+                                    <th>Email id</th>
+                                    <th>Mobile Number</th>
+                                    <th>Reg Date</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for element in students%}
+                                <tr class="odd gradeX">
+                                    <td class="center">{{element.id}}</td>
+                                    <td class="center">{{element.student_id}}</td>
+                                    <td class="center">{{element.full_name}}</td>
+                                    <td class="center">{{element.email}}</td>
+                                    <td class="center">{{element.mobile_no}}</td>
+                                    <td class="center">{{element.creation_date}}</td>
+                                    <td class="center">{% if element.status == 1 %} Active {% else %} Blocked {% endif %}
+                                    </td>
+                                    <td class="center">
+                                        <form method="post" action="/update_status/{{element.id}}/">
+                                            {% csrf_token %}
+                                            {% if element.status == 1 %}
+                                            <button class="btn btn-danger btn-sm" name="status" value="false" onclick="return confirm('Are you sure you want to block this student?')">
+                                                Inactive
+                                            </button>
+                                            {% else %}
+                                            <button class="btn btn-primary btn-sm" name="status" value="true" onclick="return confirm('Are you sure you want to Activate this student?')"> Active
+                                            </button>
+                                            {% endif %}
+                                              <a href="/{{element.id}}/detail_student"
+                                           class="btn btn-success btn-sm">Details</a>
+                                        </form>
+
+                                    </td>
+
+
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+                <!--End Advanced Tables -->
+            </div>
+        </div>
+
+
+    </div>
+</div>
+<script src="{% static 'backend/assets/js/dataTables/jquery.dataTables.js' %}"></script>
+<script src="{% static 'backend/assets/js/dataTables/dataTables.bootstrap.js' %}"></script>
+<!-- CUSTOM SCRIPTS  -->
+<script src="{% static 'backend/assets/js/custom.js' %}"></script>
+<!--<script>-->
+<!--    function updateStatus(studentId, active) {-->
+<!--        const confirmationMessage = active ? "Are you sure you want to activate this student?" : "Are you sure you want to block this student?";-->
+
+<!--        if (confirm(confirmationMessage)) {-->
+<!--            const url = `/update_status/${studentId}/`;-->
+<!--            const status = active ? "true" : "false";-->
+
+<!--            fetch(url, {-->
+<!--                method: "POST",-->
+<!--                headers: {-->
+<!--                    "Content-Type": "application/json",-->
+<!--                    "X-CSRFToken": getCookie("csrftoken"),-->
+<!--                },-->
+<!--                body: JSON.stringify({-->
+<!--                    status: status,-->
+<!--                }),-->
+<!--            })-->
+<!--            .then(response => response.json())-->
+<!--            .then(data => {-->
+<!--                if (data.message === "success") {-->
+<!--                    location.reload();  // Refresh the page after updating status-->
+<!--                }-->
+<!--            });-->
+<!--        }-->
+<!--    }-->
+
+<!--    function getCookie(name) {-->
+<!--        const cookieValue = document.cookie.match(`(^|;)\\s*${name}\\s*=\\s*([^;]+)`);-->
+<!--        return cookieValue ? cookieValue.pop() : "";-->
+<!--    }-->
+<!--</script>-->
+{% endblock %}

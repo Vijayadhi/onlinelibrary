@@ -1,0 +1,124 @@
+{% extends 'backend/base.html' %}
+{% load static %}
+{% block title %}
+Manage Categorys
+{% endblock %}
+
+{% block content %}
+
+<div class="content-wrapper">
+    <!-- ... Rest of your content ... -->
+
+    <div class="container">
+        <div class="row pad-botm">
+            <div class="col-md-12">
+                <h4 class="header-line">Manage Categorys</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <!-- Advanced Tables -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Categorys Listing
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Category</th>
+                                    <th>Status</th>
+                                    <th>Creation Date</th>
+                                    <th>Updation Date</th>
+
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for element in category %}
+                                <tr class="odd gradeX">
+                                    <td class="center">{{ element.id }}</td>
+
+                                    <td class="center">{{ element.name }}</td>
+                                    <td class="center">
+                                        {% if element.status %}
+                                        Active
+                                        {% else %}
+                                        Inactive
+                                        {% endif %}
+                                    </td>
+                                    <td class="center">{{ element.creation_date }}</td>
+                                    <td class="center">{{ element.updation_date }}</td>
+                                    <td class="center">
+                                        <a href="{{ element.id }}/update_category">
+                                            <button class="btn btn-primary"><i class="fa fa-edit"></i> Edit</button>
+                                        </a>
+                                        <button class="btn btn-danger delete-category-button"
+                                                data-category-id="{{ element.id }}"
+                                                data-category-name="{{ element.name }}">
+                                            <i class="fa fa-pencil"></i> Delete
+                                        </button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Advanced Tables -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.15.5/dist/sweetalert2.all.min.js"></script>
+<script>
+    // JavaScript function to show the SweetAlert confirmation popup
+    document.querySelectorAll('.delete-category-button').forEach(button => {
+        button.addEventListener('click', function () {
+            const categoryId = this.getAttribute('data-category-id');
+            const categoryName = this.getAttribute('data-category-name');
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: `You are about to delete the category "${categoryName}". This action cannot be undone!`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // If the user confirms the deletion, send an AJAX POST request to delete the category
+                    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                    fetch(`/delete_category/${categoryId}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': csrfToken,
+                        },
+                    }).then(response => response.json())
+                        .then(data => {
+                            Swal.fire({
+                                title: 'Success!',
+                                text: data.message,
+                                icon: 'success',
+                                confirmButtonColor: '#3085d6',
+                                confirmButtonText: 'OK',
+                            }).then(() => {
+                                // If the category is successfully deleted, reload the page to update the category list
+                                location.reload();
+                            });
+                        });
+                }
+            });
+        });
+    });
+</script>
+
+{% endblock %}

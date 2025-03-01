@@ -1,0 +1,120 @@
+{% extends 'backend/base.html' %}
+{% load static %}
+{% block title %}
+Manage Books
+{% endblock %}
+
+{% block content %}
+
+<div class="content-wrapper">
+    <!-- ... Rest of your content ... -->
+
+    <div class="container">
+        <div class="row pad-botm">
+            <div class="col-md-12">
+                <h4 class="header-line">Manage Books</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <!-- Advanced Tables -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Books Listing
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Book Name</th>
+                                        <th>Category</th>
+                                        <th>Author</th>
+                                        <th>ISBN</th>
+                                        <th>Price</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for element in book_list %}
+                                    <tr class="odd gradeX">
+                                        <td class="center">{{ element.id }}</td>
+                                        <td class="center" width="300">
+                                            <img src="media/{{ element.image }}" width="100">
+                                            <br/><b>{{ element.name }}</b>
+                                        </td>
+                                        <td class="center">{{ element.category.name }}</td>
+                                        <td class="center">{{ element.author.name }}</td>
+                                        <td class="center">{{ element.isbn_number }}</td>
+                                        <td class="center">{{ element.price }}</td>
+                                        <td class="center">
+                                            <a href="{{ element.id }}/update_book">
+                                                <button class="btn btn-primary"><i class="fa fa-edit"></i> Edit</button>
+                                            </a>
+                                            <button class="btn btn-danger delete-book-button"
+                                                data-book-id="{{ element.id }}" data-book-name="{{ element.name }}">
+                                                <i class="fa fa-pencil"></i> Delete
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Advanced Tables -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.15.5/dist/sweetalert2.all.min.js"></script>
+<script>
+    // JavaScript function to show the SweetAlert confirmation popup
+    document.querySelectorAll('.delete-book-button').forEach(button => {
+        button.addEventListener('click', function () {
+            const bookId = this.getAttribute('data-book-id');
+            const bookName = this.getAttribute('data-book-name');
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: `You are about to delete the book "${bookName}". This action cannot be undone!`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // If the user confirms the deletion, send an AJAX POST request to delete the book
+                    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                    fetch(`/delete_book/${bookId}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': csrfToken,
+                        },
+                    }).then(response => response.json())
+                        .then(data => {
+                            Swal.fire({
+                                title: 'Success!',
+                                text: data.message,
+                                icon: 'success',
+                                confirmButtonColor: '#3085d6',
+                                confirmButtonText: 'OK',
+                            }).then(() => {
+                                // If the book is successfully deleted, reload the page to update the book list
+                                location.reload();
+                            });
+                        });
+                }
+            });
+        });
+    });
+</script>
+
+{% endblock %}
